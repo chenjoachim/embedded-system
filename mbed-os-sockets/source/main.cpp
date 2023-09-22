@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
+#include "ThisThread.h"
 #include "mbed.h"
+#include "nsapi_types.h"
 #include "wifi_helper.h"
 #include "mbed-trace/mbed_trace.h"
 
@@ -33,7 +35,7 @@ class SocketDemo {
 #if MBED_CONF_APP_USE_TLS_SOCKET
     static constexpr size_t REMOTE_PORT = 443; // tls port
 #else
-    static constexpr size_t REMOTE_PORT = 80; // standard HTTP port
+    static constexpr size_t REMOTE_PORT = 6543; // standard HTTP port
 #endif // MBED_CONF_APP_USE_TLS_SOCKET
 
 public:
@@ -116,15 +118,47 @@ public:
 
         /* exchange an HTTP request and response */
 
-        if (!send_http_request()) {
-            return;
-        }
+        // if (!send_http_request()) {
+        //     return;
+        // }
 
-        if (!receive_http_response()) {
-            return;
-        }
+        // if (!receive_http_response()) {
+        //     return;
+        // }
 
         printf("Demo concluded successfully \r\n");
+
+        //start sending data
+        int sample_num = 0;
+        char test_json[1024];
+        while(1){
+            ++sample_num;
+            int len = sprintf(test_json, "{\"x\":\"Hello \"%d}", sample_num);
+            nsapi_size_t response = _socket.send(test_json, len);
+            printf("sent!");
+            if(0 >= response)
+            {
+                printf("Error seding: %d\n", response);
+            }
+            wait_us(1e6);
+        }
+        // while(1)
+        // {
+        //     printf("1");
+        //     ++sample_num;
+        //     printf("2");
+        //     int len = sprintf(test_json, "{\"x\":\"Hello \"%d", sample_num);
+        //     printf("3");
+        //     nsapi_size_t response = _socket.send(test_json, len);
+        //     printf("4");
+        //     if(0 >= response)
+        //     {
+        //         printf("Error seding: %d\n", response);
+        //     }
+        //     printf("5");
+        //     wait_us(1e6);
+        //     printf("6");
+        // }
     }
 
 private:
