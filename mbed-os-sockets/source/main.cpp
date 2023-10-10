@@ -14,12 +14,15 @@
  * limitations under the License.
  */
 
-#include "ThisThread.h"
 #include "mbed.h"
-#include "nsapi_types.h"
 #include "wifi_helper.h"
 #include "mbed-trace/mbed_trace.h"
-
+#include "stm32l475e_iot01_tsensor.h"
+#include "stm32l475e_iot01_hsensor.h"
+#include "stm32l475e_iot01_psensor.h"
+#include "stm32l475e_iot01_magneto.h"
+#include "stm32l475e_iot01_gyro.h"
+#include "stm32l475e_iot01_accelero.h"
 #if MBED_CONF_APP_USE_TLS_SOCKET
 #include "root_ca_cert.h"
 
@@ -117,48 +120,22 @@ public:
         }
 
         /* exchange an HTTP request and response */
-
-        // if (!send_http_request()) {
-        //     return;
-        // }
-
-        // if (!receive_http_response()) {
-        //     return;
-        // }
-
-        printf("Demo concluded successfully \r\n");
-
-        //start sending data
-        int sample_num = 0;
-        char test_json[1024];
-        while(1){
+        char acc_json[1024];
+        int sample_num = 0, SCALE_MULTIPLIER = 10;
+        int16_t pDataXYZ[3] = {0};
+        while (1){
             ++sample_num;
-            int len = sprintf(test_json, "{\"x\":\"Hello \"%d}", sample_num);
-            nsapi_size_t response = _socket.send(test_json, len);
-            printf("sent!");
-            if(0 >= response)
-            {
+            BSP_ACCELERO_AccGetXYZ(pDataXYZ);
+            float x = pDataXYZ[0]*SCALE_MULTIPLIER, y = pDataXYZ[1]*SCALE_MULTIPLIER,
+            z = pDataXYZ[2]*SCALE_MULTIPLIER;
+            int len = sprintf(acc_json,"{\"x\":%f,\"y\":%f,\"z\":%f,\"s\":%d}",(float)((int)(x*10000))/10000,
+            (float)((int)(y*10000))/10000, (float)((int)(z*10000))/10000, sample_num);
+            int response = _socket.send(acc_json,len);
+            if (0 >= response){
                 printf("Error seding: %d\n", response);
             }
-            wait_us(1e6);
+            wait_us(100000);
         }
-        // while(1)
-        // {
-        //     printf("1");
-        //     ++sample_num;
-        //     printf("2");
-        //     int len = sprintf(test_json, "{\"x\":\"Hello \"%d", sample_num);
-        //     printf("3");
-        //     nsapi_size_t response = _socket.send(test_json, len);
-        //     printf("4");
-        //     if(0 >= response)
-        //     {
-        //         printf("Error seding: %d\n", response);
-        //     }
-        //     printf("5");
-        //     wait_us(1e6);
-        //     printf("6");
-        // }
     }
 
 private:
@@ -285,7 +262,13 @@ private:
 
 int main() {
     printf("\r\nStarting socket demo\r\n\r\n");
+    BSP_TSENSOR_Init();
+    BSP_HSENSOR_Init();
+    BSP_PSENSOR_Init();
 
+    BSP_MAGNETO_Init();
+    BSP_GYRO_Init();
+    BSP_ACCELERO_Init();
 #ifdef MBED_CONF_MBED_TRACE_ENABLE
     mbed_trace_init();
 #endif
@@ -296,3 +279,5 @@ int main() {
 
     return 0;
 }
+
+//test
