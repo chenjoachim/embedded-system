@@ -37,7 +37,7 @@ Use matplotlib to plot the data.
 2. Using MbedOS to compile the program.
 3. Connect the stm32 to your computer with USB cable and run the program in stm32 and 
 ### 3.2 Host program
-1. Modify the IP address in my_socket.py
+1. Modify the IP address in `my_socket.py`
 ```
 HOST = 'Your IP address'
 ```
