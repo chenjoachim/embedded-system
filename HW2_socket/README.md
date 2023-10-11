@@ -1,7 +1,7 @@
 # HW2_socket
 #### This folder contains following two programs.  
-- A program in stm32 to read the sensor value, such as 3D Accelerator and 3D gyro and send the data.  
-- A Linux/Windows/Mac host receive data send from stm32 and Visualize with some kind of GUI tools.
+- A program in stm32 to read the sensor value of 3D Accelerator and send the data.  
+- A Linux/Windows/Mac host that receives data send from stm32 and visualize with Matplotlib.
 ## 1. STM32 program(`mbedos_socket`)
 ### 1.1 socket
 Run as socket client.
@@ -35,7 +35,7 @@ Use matplotlib to plot the data.
 ```
 
 2. Using MbedOS to compile the program.
-3. Connect the stm32 to your computer with USB cable and run the program in stm32 and 
+3. Connect the stm32 to your computer with USB cable and run the program in stm32.
 ### 3.2 Host program
 1. Modify the IP address in `my_socket.py`
 ```
