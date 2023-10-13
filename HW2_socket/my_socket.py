@@ -23,10 +23,10 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 data = buffer_data[choose] + '}'
             obj = json.loads(data)
             t = obj['s']
-            plot.scatter(t, obj['x']/1000, c='blue') # x, y, z, gx, gy, gz
+            plot.scatter(t, obj['x']/1000*0.98, c='blue') # x, y, z, gx, gy, gz
             plot.xlabel("sample num")
-            plot.scatter(t, obj['y']/1000, c='green') # x, y, z, gx, gy, gz
+            plot.scatter(t, obj['y']/1000*0.98, c='green') # x, y, z, gx, gy, gz
             plot.xlabel("sample num")
-            plot.scatter(t, obj['z']/1000, c='red') # x, y, z, gx, gy, gz
+            plot.scatter(t, obj['z']/1000*0.98, c='red') # x, y, z, gx, gy, gz
             plot.xlabel("sample num")
             plot.pause(0.0001)
