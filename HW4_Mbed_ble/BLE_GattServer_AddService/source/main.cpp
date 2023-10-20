@@ -89,7 +89,6 @@ private:
         _adv_data_builder.setAppearance(ble::adv_data_appearance_t::GENERIC_HEART_RATE_SENSOR);
         _adv_data_builder.setLocalServiceList({&_heartrate_uuid, 1});
         _adv_data_builder.setLocalServiceList({&_magneto_uuid, 2});
-        
         _adv_data_builder.setName(DEVICE_NAME);
 
         /* Setup advertising */
