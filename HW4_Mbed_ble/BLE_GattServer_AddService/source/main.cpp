@@ -47,7 +47,7 @@ public:
     void start()
     {
         _ble.init(this, &HeartrateDemo::on_init_complete);
-
+        printf("EventQueue dispatch!\n");
         _event_queue.dispatch_forever();
     }
 
@@ -72,7 +72,12 @@ private:
                 update_sensor_value();
             }
         );
-
+        _event_queue.call_every(
+            1200ms,
+            [this]{
+                update_mag_value();
+            }
+        );
         start_advertising();
     }
 
@@ -129,19 +134,23 @@ private:
     {
         /* you can read in the real value but here we just simulate a value */
         _heartrate_value++;
-        BSP_MAGNETO_GetXYZ(pDataXYZ);
-        _magneto_x_value = pDataXYZ[0];
-        _magneto_y_value = pDataXYZ[1];
-        _magneto_z_value = pDataXYZ[2];
         /*  60 <= bpm value < 110 */
         if (_heartrate_value == 110) {
             _heartrate_value = 60;
         }
-
+        printf("updata heart value\n");
         _heartrate_service.updateHeartRate(_heartrate_value);
+        
+    }
+    void update_mag_value()
+    {
+        BSP_MAGNETO_GetXYZ(pDataXYZ);
+        _magneto_x_value = pDataXYZ[0];
+        _magneto_y_value = pDataXYZ[1];
+        _magneto_z_value = pDataXYZ[2];
+        printf("updata mag value\n");
         _magneto_service.updateMagneto(_magneto_x_value, _magneto_y_value, _magneto_z_value);
     }
-
     /* these implement ble::Gap::EventHandler */
 private:
     /* when we connect we stop advertising, restart advertising so others can connect */
@@ -185,7 +194,8 @@ private:
 
 /* Schedule processing of events from the BLE middleware in the event queue. */
 void schedule_ble_events(BLE::OnEventsToProcessCallbackContext *context)
-{
+{   
+    //printf("schedule\n");
     event_queue.call(Callback<void()>(&context->ble, &BLE::processEvents));
 }
 
@@ -197,6 +207,7 @@ int main()
     ble.onEventsToProcess(schedule_ble_events);
 
     HeartrateDemo demo(ble, event_queue);
+    //printf("init\n");
     demo.start();
 
     return 0;
