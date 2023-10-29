@@ -11,11 +11,11 @@ This folder contains the following program
 ## 2. BLE_GattServer_AddService
 * It provides the Heartrate Service and the Magnetometer Service. 
 * Both Heartrate Service and the Magnetometer Service are in notify mode.
-## 2. How to use
+## 3. How to use
 1. Execute `ble_scan_connect.py`.
 2. Select a device with an address or name matching that of the test device.
 3. The program will receive the data from the device and print it out.
 4. You can see the data from the device in the terminal.
 
-## 3.Reference
+## 4.Reference
 * NTUEE embedded system week5 slides.
