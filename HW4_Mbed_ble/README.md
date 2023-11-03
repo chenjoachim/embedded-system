@@ -12,7 +12,7 @@ This folder contains the following program
 * It provides the Heartrate Service and the Magnetometer Service. 
 * Both Heartrate Service and the Magnetometer Service are in notify mode.
 ## 3. How to use
-1. Execute `ble_scan_connect.py`.
+1. Execute `ble_heartrate_magneto.py`.
 2. Select a device with an address or name matching that of the test device.
 3. The program will receive the data from the device and print it out.
 4. You can see the data from the device in the terminal.
