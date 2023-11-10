@@ -18,4 +18,4 @@ This folder contains the following program
 4. You can see the data from the device in the terminal.
 
 ## 4.Reference
-* NTUEE embedded system week5 slides.
+* NTUEE embedded system week8 slides.
