@@ -14,5 +14,6 @@ This folder contains the following program
 ![alt text](result.png)
 * It has normalized cutoff frequency 0.25. In our code sampling rate is 10 Hz cutoff frequency is 2.5Hz. A grid represents one second.
 
-## 3.Reference
-* NTUEE embedded system week5 slides.
+## 5.Reference
+* NTUEE embedded system week8 slides.
+* https://arm-software.github.io/CMSIS_5/DSP/html/group__FIRLPF.html
