@@ -9,11 +9,11 @@ This folder contains the following program
 ## 2. main.cpp
 * It first puts do_fir and print_fir functions on the event queue, and use the thread that reads accelerator to call them.
 * The functions are called when the buffer is full
-## 4. Result
+## 3. Result
 * The result is shown in the following figure.
 ![alt text](result.png)
 * It has normalized cutoff frequency 0.25. In our code sampling rate is 10 Hz cutoff frequency is 2.5Hz. A grid represents one second.
 
-## 5.Reference
+## 4.Reference
 * NTUEE embedded system week8 slides.
 * https://arm-software.github.io/CMSIS_5/DSP/html/group__FIRLPF.html
